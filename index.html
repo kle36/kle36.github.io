@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Hermies</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    @font-face {
+      font-family: 'MrSheffield';
+      src: url('brand_assets/Mr%20Sheffield.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'NeueHaas';
+      src: url('brand_assets/Neue%20Haas%20Unica%20Pro%20Light.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Mencken';
+      src: url('brand_assets/fonnts.com-Mencken-Std-Head-Compress-.otf') format('opentype');
+      font-display: swap;
+    }
+
+    :root {
+      --red: #c93c43;
+      --purple: #601d55;
+      --orange: #f47e20;
+      --dark-purple: #4f285e;
+      --teal: #60a8a5;
+      --cream: #efede6;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'NeueHaas', 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+      animation: pageEnter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes pageEnter {
+      from { opacity: 0; transform: translateY(36px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pageExit {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-28px); }
+    }
+    body.exiting { animation: pageExit 0.35s ease forwards; }
+
+    /* ── NAV ─────────────────────────────────── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(8, 5, 12, 0.42);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: visible;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 72px;
+      padding: 0 52px;
+      height: 88px;
+      overflow: visible;
+    }
+    .nav-link {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 0.17em;
+      text-decoration: none;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      background: none; border: none;
+      transition: opacity 0.2s ease;
+      padding: 4px 0;
+    }
+    .nav-link:hover { opacity: 0.6; }
+    .nav-logo { height: 110px; display: block; position: relative; top: 28px; }
+
+    /* ── HERO ────────────────────────────────── */
+    #hero {
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    .hero-gradient {
+      position: absolute; inset: 0;
+      background: linear-gradient(
+        to top,
+        rgba(8,4,14,0.80) 0%,
+        rgba(8,4,14,0.38) 38%,
+        rgba(8,4,14,0.08) 65%,
+        transparent 100%
+      );
+      pointer-events: none;
+    }
+    .hero-arrow {
+      position: absolute;
+      bottom: 68px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: none; border: none;
+      cursor: pointer;
+      color: rgba(255,255,255,0.8);
+      padding: 12px;
+      display: flex; align-items: center; justify-content: center;
+      transition: color 0.25s ease;
+      animation: arrowBounce 4s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+    }
+    .hero-arrow:hover {
+      color: var(--red);
+      animation-play-state: paused;
+    }
+    @keyframes arrowBounce {
+      0%, 100% { transform: translateX(-50%) translateY(0px); }
+      28%  { transform: translateX(-50%) translateY(16px); }
+      42%  { transform: translateX(-50%) translateY(5px); }
+      56%  { transform: translateX(-50%) translateY(13px); }
+      70%  { transform: translateX(-50%) translateY(3px); }
+      82%  { transform: translateX(-50%) translateY(8px); }
+    }
+
+    /* ── MENU ────────────────────────────────── */
+    #menu {
+      background: var(--cream);
+      padding: 80px 0 100px;
+      scroll-margin-top: 88px;
+    }
+    .menu-header {
+      position: relative;
+      text-align: center;
+      margin-bottom: 52px;
+      user-select: none;
+      height: 140px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+    }
+    .menu-big {
+      font-family: 'Mencken', serif;
+      font-size: 130px;
+      color: var(--red);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      position: relative; z-index: 2;
+    }
+    .menu-script {
+      font-family: 'MrSheffield', cursive;
+      font-size: 68px;
+      color: var(--teal);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 84px;
+      white-space: nowrap;
+      z-index: 3;
+      pointer-events: none;
+    }
+    .menu-categories {
+      max-width: 840px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+    .cat-row {
+      border-top: 1px solid #60a8a5;
+    }
+    .cat-row:last-child { border-bottom: 1px solid #60a8a5; }
+
+    .cat-btn {
+      width: 100%; background: none; border: none;
+      cursor: pointer;
+      padding: 18px 16px;
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 13px;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--purple);
+      text-align: center;
+      display: flex; align-items: center; justify-content: center;
+      gap: 14px;
+      transition: color 0.2s ease;
+    }
+    .cat-btn:hover { color: var(--red); }
+    .cat-chevron {
+      display: inline-flex;
+      align-items: center;
+      transition: transform 0.38s cubic-bezier(0.22,1,0.36,1);
+      flex-shrink: 0;
+    }
+    .cat-btn.open .cat-chevron { transform: rotate(180deg); }
+
+    .cat-items {
+      overflow: hidden;
+      max-height: 0;
+      transition: max-height 0.58s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    .cat-items-inner { padding: 6px 0 52px; }
+
+    .menu-item {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 0 40px;
+    }
+    .item-name {
+      font-family: 'Mencken', serif;
+      font-size: 22px;
+      color: var(--purple);
+      letter-spacing: 0.01em;
+    }
+    .item-desc {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 13px;
+      color: #aaa;
+      margin-top: 5px;
+      letter-spacing: 0.08em;
+    }
+
+    /* ── OCTOPUS ─────────────────────────────── */
+    #octopus-section {
+      line-height: 0;
+      font-size: 0;
+      position: relative;
+      background: var(--cream);
+      overflow: hidden;
+      width: 100%;
+      margin: 0;
+      padding: 0;
+    }
+    .octopus-img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* ── VISIT US ────────────────────────────── */
+    #visit-us {
+      background: var(--cream);
+      padding: 48px 40px 80px;
+      text-align: center;
+    }
+    .visit-header {
+      position: relative;
+      height: 148px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      margin-bottom: 60px;
+    }
+    .visit-big {
+      font-family: 'Mencken', serif;
+      font-size: 130px;
+      color: var(--red);
+      line-height: 1;
+      letter-spacing: -0.02em;
+      position: relative; z-index: 2;
+    }
+    .visit-script {
+      font-family: 'MrSheffield', cursive;
+      font-size: 68px;
+      color: var(--teal);
+      position: absolute;
+      left: 50%; transform: translateX(-50%);
+      top: 90px;
+      white-space: nowrap;
+      z-index: 3; pointer-events: none;
+    }
+    .visit-content { max-width: 680px; margin: 0 auto; }
+
+    .section-heading {
+      font-family: 'Mencken', serif;
+      font-size: 30px;
+      color: var(--purple);
+      letter-spacing: 0.01em;
+      margin-bottom: 16px;
+    }
+    .body-text {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 15px;
+      color: #666;
+      line-height: 1.78;
+    }
+    .hours-grid {
+      display: inline-grid;
+      grid-template-columns: auto auto;
+      column-gap: 52px;
+      row-gap: 7px;
+      margin: 22px 0;
+      text-align: left;
+    }
+    .hours-label {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 14px; color: #555;
+    }
+    .hours-val {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 14px; color: #999;
+    }
+    .visit-divider {
+      width: 56px; height: 1px;
+      background: rgba(96,29,85,0.2);
+      margin: 24px auto;
+    }
+    .reserve-btn {
+      display: inline-block;
+      background: var(--red);
+      color: #fff;
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 11.5px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 17px 54px;
+      margin-top: 28px;
+      border-radius: 8px;
+      transition: background 0.25s ease, transform 0.2s ease, box-shadow 0.2s ease;
+      box-shadow: 0 4px 22px rgba(201,60,67,0.28);
+    }
+    .reserve-btn:hover {
+      background: #a9323a;
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(201,60,67,0.38);
+    }
+    .reserve-btn:active { transform: translateY(0); }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      position: relative;
+      padding: 0 40px 14px;
+      background: #0e0c0c;
+      overflow: hidden;
+      text-align: center;
+    }
+    .footer-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover;
+      opacity: 0.28;
+      pointer-events: none;
+    }
+    .footer-inner { position: relative; z-index: 1; }
+    .footer-logo { height: 232px; margin: 110px auto 8px; display: block; }
+    .footer-location {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 13px;
+      color: rgba(255,255,255,0.5);
+      line-height: 1.75;
+      margin-bottom: 0;
+    }
+    .footer-divider {
+      width: 42px; height: 1px;
+      background: var(--teal);
+      margin: 12px auto;
+      opacity: 0.55;
+    }
+    .footer-contact {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 12.5px;
+      color: rgba(255,255,255,0.4);
+      line-height: 2;
+    }
+    .footer-contact a {
+      color: inherit; text-decoration: none;
+      transition: color 0.2s ease;
+    }
+    .footer-contact a:hover { color: var(--teal); }
+    .footer-social {
+      display: flex; gap: 22px;
+      justify-content: center;
+      margin-top: 12px;
+    }
+    .footer-social a {
+      color: rgba(255,255,255,0.45);
+      transition: color 0.2s ease;
+      display: flex; align-items: center;
+    }
+    .footer-social a:hover { color: var(--teal); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="#menu" class="nav-link" id="menu-nav-link">Menu</a>
+    <a href="https://resy.com/?extlink=ps-US-Resy-Brand-Conversion-Evergreen&utm_source=google&utm_medium=paid_search&utm_campaign=USA_EN_RE_GGL_RC_BR_ResyONLY_EXT_Standard_National&utm_term=General_RSA%20Website:resy&gclsrc=aw.ds&gad_source=1&gad_campaignid=11095590629&gbraid=0AAAAADRRHWPSX2g2Yl-RyYVOH80le-7dL&gclid=CjwKCAjw5NvPBhAoEiwA_2egfgg1EF91l8gedxgNq4uyH_vMRx5uww63ZVT58RIUSJ5D-ja2ISkA9xoCeFAQAvD_BwE&date=2026-05-03&seats=2" target="_blank" rel="noopener" class="nav-link">Reservations</a>
+    <a href="index.html" class="page-link">
+      <img src="brand_assets/Logo.png" alt="Hermies" class="nav-logo">
+    </a>
+    <a href="about.html" class="nav-link page-link">Our Story</a>
+    <a href="process.html" class="nav-link page-link">The Process</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero" data-nav-blur>
+  <img src="Imagery/Hero%20Image.png" alt="Hermies restaurant" class="hero-img">
+  <div class="hero-gradient"></div>
+  <button class="hero-arrow" id="hero-arrow" aria-label="Scroll down">
+    <svg width="30" height="19" viewBox="0 0 30 19" fill="none">
+      <path d="M2 2.5L15 16L28 2.5" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <div class="menu-header">
+    <h2 class="menu-big">MENU</h2>
+    <span class="menu-script">Constantly Evolving</span>
+  </div>
+
+  <div class="menu-categories">
+
+    <!-- STARTERS -->
+    <div class="cat-row">
+      <button class="cat-btn" data-target="starters-items">
+        Starters
+        <span class="cat-chevron">
+          <svg width="13" height="8" viewBox="0 0 13 8" fill="none">
+            <path d="M1 1L6.5 7L12 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+      <div class="cat-items" id="starters-items">
+        <div class="cat-items-inner">
+          <div class="menu-item"><div class="item-name">Rellenon Galimasag</div><div class="item-desc">crab fat, chilies, ghee, roe</div></div>
+          <div class="menu-item"><div class="item-name">Tinapa Mousse Cornet</div><div class="item-desc">milkfish, truffle, french sea salt, waffle cone</div></div>
+          <div class="menu-item"><div class="item-name">Maine Lobster &amp; Manila Clams</div><div class="item-desc">durian coconut stew, jimmy nardello peppers</div></div>
+          <div class="menu-item"><div class="item-name">Chicken Liver Mousse</div><div class="item-desc">wok-fried chicken liver mousse, ube halaya</div></div>
+          <div class="menu-item"><div class="item-name">French Radish</div><div class="item-desc">french radish, burnt coconut, toasted pistachios</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ENTREES -->
+    <div class="cat-row">
+      <button class="cat-btn" data-target="entrees-items">
+        Entrees
+        <span class="cat-chevron">
+          <svg width="13" height="8" viewBox="0 0 13 8" fill="none">
+            <path d="M1 1L6.5 7L12 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+      <div class="cat-items" id="entrees-items">
+        <div class="cat-items-inner">
+          <div class="menu-item"><div class="item-name">Piniritong Alimasag</div><div class="item-desc">softshell crab, crab fat, cilantro, jasmine rice</div></div>
+          <div class="menu-item"><div class="item-name">Lechon Pork Achara</div><div class="item-desc">pork lechon, mang tom's sauce, french sea salt, white vinegar, jasmine rice</div></div>
+          <div class="menu-item"><div class="item-name">Labanos Sinog Niyog</div><div class="item-desc">thinly sliced radish, tofu, white vinegar, sesame oil, brown rice</div></div>
+          <div class="menu-item"><div class="item-name">Prince Edward Island Mussels</div><div class="item-desc">coconut milk, garlic, chives, chrysanthemum confit, sungold cherry tomato, peashoots</div></div>
+          <div class="menu-item"><div class="item-name">Piniritong Adobong Pusit</div><div class="item-desc">squid, pickled long peppers, squid adobo sauce, long pepper salt, jasmine rice</div></div>
+          <div class="menu-item"><div class="item-name">Fried Cutlet &amp; Palabok Gravy</div><div class="item-desc">fried chicken or pork cutlet, palabok gravy with shrimp, mung bean noodles</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- SWEETS -->
+    <div class="cat-row">
+      <button class="cat-btn" data-target="sweets-items">
+        Sweets
+        <span class="cat-chevron">
+          <svg width="13" height="8" viewBox="0 0 13 8" fill="none">
+            <path d="M1 1L6.5 7L12 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+      <div class="cat-items" id="sweets-items">
+        <div class="cat-items-inner">
+          <div class="menu-item"><div class="item-name">Halo-Halo</div><div class="item-desc">shaved ice, milk, ube halaya, ube or pandan ice cream</div></div>
+          <div class="menu-item"><div class="item-name">Leche Flan</div><div class="item-desc">house caramel, egg yolk custard</div></div>
+          <div class="menu-item"><div class="item-name">Bibinka</div><div class="item-desc">coconut, warm sticky rice cake, ube, salted egg yolk</div></div>
+          <div class="menu-item"><div class="item-name">Calamansi Tiramisu</div><div class="item-desc">ube-mascarpone cream, espresso, purple yam</div></div>
+          <div class="menu-item"><div class="item-name">Palitaw Shooter</div><div class="item-desc">ube, pandan, matcha, strawberry sticky rice cakes, shaved coconut</div></div>
+          <div class="menu-item"><div class="item-name">Pandan Panna Cotta</div><div class="item-desc">pandan leaves, egg, housemade cream</div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DRINKS -->
+    <div class="cat-row">
+      <button class="cat-btn" data-target="drinks-items">
+        Drinks
+        <span class="cat-chevron">
+          <svg width="13" height="8" viewBox="0 0 13 8" fill="none">
+            <path d="M1 1L6.5 7L12 1" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </span>
+      </button>
+      <div class="cat-items" id="drinks-items">
+        <div class="cat-items-inner">
+          <div class="menu-item"><div class="item-name">Sampaguita Spritz</div><div class="item-desc">floral, citrus, sparkling, delicate</div></div>
+          <div class="menu-item"><div class="item-name">Calamansi Paloma</div><div class="item-desc">bright, tart, smoky, refreshing</div></div>
+          <div class="menu-item"><div class="item-name">Ube Old Fashioned</div><div class="item-desc">earthy, sweet, aromatic, bold</div></div>
+          <div class="menu-item"><div class="item-name">Tropical Fruit Riesling</div><div class="item-desc">crisp, floral, off-dry, vibrant</div></div>
+          <div class="menu-item"><div class="item-name">Volcanic Soil Pinot Noir</div><div class="item-desc">light, earthy, silky, nuanced</div></div>
+          <div class="menu-item"><div class="item-name">Island Rose Blend</div><div class="item-desc">dry, bright, mineral, refreshing</div></div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- OCTOPUS IMAGERY -->
+<section id="octopus-section" data-nav-blur>
+  <img src="Imagery/Octopus.png" alt="Continuation" class="octopus-img">
+</section>
+
+<!-- VISIT US -->
+<section id="visit-us">
+  <div class="visit-header">
+    <h2 class="visit-big">VISIT US</h2>
+    <span class="visit-script">Come Hungry, Leave Happy</span>
+  </div>
+  <div class="visit-content">
+    <h3 class="section-heading">Hours &amp; Location</h3>
+    <p class="body-text">Soon to be restaurant in<br>Montrose Area of Houston, TX.</p>
+    <div class="hours-grid">
+      <span class="hours-label">Mondays - Thursdays</span>
+      <span class="hours-val">Open 11 AM - 9 PM</span>
+      <span class="hours-label">Fridays - Sundays</span>
+      <span class="hours-val">Open 4 PM - 11 PM</span>
+    </div>
+    <div class="visit-divider"></div>
+    <h3 class="section-heading">Reserve A Table</h3>
+    <p class="body-text">We look forward to hosting you at our table! To ensure you have a spot waiting, we recommend booking in advance, though we always save a portion of our dining room for walk-in guests. For parties of six or more, please contact us directly to help us coordinate a seamless experience for your group.</p>
+    <a href="https://resy.com/?extlink=ps-US-Resy-Brand-Conversion-Evergreen&utm_source=google&utm_medium=paid_search&utm_campaign=USA_EN_RE_GGL_RC_BR_ResyONLY_EXT_Standard_National&utm_term=General_RSA%20Website:resy&gclsrc=aw.ds&gad_source=1&gad_campaignid=11095590629&gbraid=0AAAAADRRHWPSX2g2Yl-RyYVOH80le-7dL&gclid=CjwKCAjw5NvPBhAoEiwA_2egfgg1EF91l8gedxgNq4uyH_vMRx5uww63ZVT58RIUSJ5D-ja2ISkA9xoCeFAQAvD_BwE&date=2026-05-03&seats=2" target="_blank" rel="noopener" class="reserve-btn">Reserve A Table</a>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <img src="Imagery/Footer.png" alt="" class="footer-bg">
+  <div class="footer-inner">
+    <img src="brand_assets/Logo.png" alt="Hermies" class="footer-logo">
+    <p class="footer-location">Soon to be restaurant in<br>Montrose Area of Houston, TX.</p>
+    <div class="footer-divider"></div>
+    <p class="footer-contact">
+      <a href="mailto:tom.cunanan@hermies.com">tom.cunanan@hermies.com</a><br>
+      <a href="tel:8324148908">(832) 414 - 8908</a>
+    </p>
+    <div class="footer-social">
+      <!-- Instagram -->
+      <a href="https://www.instagram.com/hermiesrestaurant/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <!-- Facebook -->
+      <a href="#" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+      <!-- Email -->
+      <a href="mailto:tom.cunanan@hermies.com" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  /* ── Hero arrow ── */
+  document.getElementById('hero-arrow').addEventListener('click', () => {
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* ── Menu nav link smooth scroll ── */
+  document.getElementById('menu-nav-link').addEventListener('click', e => {
+    e.preventDefault();
+    document.getElementById('menu').scrollIntoView({ behavior: 'smooth' });
+  });
+
+  /* ── Menu accordion ── */
+  document.querySelectorAll('.cat-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const targetId = btn.dataset.target;
+      const items = document.getElementById(targetId);
+      const isOpen = btn.classList.contains('open');
+
+      // Close all
+      document.querySelectorAll('.cat-btn.open').forEach(b => {
+        b.classList.remove('open');
+        document.getElementById(b.dataset.target).style.maxHeight = '0px';
+      });
+
+      if (!isOpen) {
+        btn.classList.add('open');
+        items.style.maxHeight = items.scrollHeight + 'px';
+      }
+    });
+  });
+
+  /* ── Page transitions ── */
+  document.querySelectorAll('.page-link').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+      e.preventDefault();
+      document.body.classList.add('exiting');
+      setTimeout(() => { window.location.href = href; }, 320);
+    });
+  });
+
+  /* ── Scroll to #menu on load if hash ── */
+  if (window.location.hash === '#menu') {
+    setTimeout(() => {
+      document.getElementById('menu')?.scrollIntoView({ behavior: 'smooth' });
+    }, 650);
+  }
+</script>
+</body>
+</html>

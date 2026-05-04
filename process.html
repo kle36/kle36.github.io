@@ -1,0 +1,1087 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Process  -  Hermies</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    @font-face {
+      font-family: 'MrSheffield';
+      src: url('brand_assets/Mr%20Sheffield.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'NeueHaas';
+      src: url('brand_assets/Neue%20Haas%20Unica%20Pro%20Light.ttf') format('truetype');
+      font-display: swap;
+    }
+    @font-face {
+      font-family: 'Mencken';
+      src: url('brand_assets/fonnts.com-Mencken-Std-Head-Compress-.otf') format('opentype');
+      font-display: swap;
+    }
+
+    :root {
+      --red: #c93c43;
+      --purple: #601d55;
+      --orange: #f47e20;
+      --dark-purple: #4f285e;
+      --teal: #60a8a5;
+      --cream: #efede6;
+      --hand: 'Caveat', cursive;
+    }
+
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'NeueHaas', 'Helvetica Neue', Arial, sans-serif;
+      overflow-x: hidden;
+      background: #7a6550;
+      animation: pageEnter 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+    }
+    @keyframes pageEnter {
+      from { opacity: 0; transform: translateY(36px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes pageExit {
+      from { opacity: 1; transform: translateY(0); }
+      to   { opacity: 0; transform: translateY(-28px); }
+    }
+    body.exiting { animation: pageExit 0.35s ease forwards; }
+
+    /* ── NAV ─────────────────────────────────── */
+    #main-nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 1000;
+      background: rgba(8, 5, 12, 0.42);
+      backdrop-filter: blur(14px);
+      -webkit-backdrop-filter: blur(14px);
+      overflow: visible;
+    }
+    .nav-inner {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 72px;
+      padding: 0 52px;
+      height: 88px;
+      overflow: visible;
+    }
+    .nav-link {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 10.5px;
+      letter-spacing: 0.17em;
+      text-decoration: none;
+      text-transform: uppercase;
+      color: #fff;
+      cursor: pointer;
+      background: none; border: none;
+      transition: opacity 0.2s ease;
+      padding: 4px 0;
+    }
+    .nav-link:hover { opacity: 0.6; }
+    .nav-logo { height: 110px; display: block; position: relative; top: 28px; }
+
+    /* ── CORKBOARD ───────────────────────────── */
+    .corkboard {
+      min-height: 100vh;
+      padding: 130px 0 80px;
+      background: url('Imagery/Map%20BG.PNG') center/cover fixed;
+      position: relative;
+    }
+
+    /* Cork texture */
+    .corkboard::before {
+      content: '';
+      position: absolute; inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.07'/%3E%3C/svg%3E");
+      pointer-events: none; opacity: 1;
+    }
+
+    .board-title-wrap {
+      text-align: center;
+      position: relative; z-index: 1;
+      margin-bottom: 72px;
+    }
+    .board-title {
+      position: relative;
+      display: inline-block;
+    }
+    .board-title h1 {
+      font-family: 'Mencken', serif;
+      font-size: 108px;
+      color: #c93c43;
+      text-shadow: 0 4px 20px rgba(0,0,0,0.4);
+      line-height: 1;
+      position: relative; z-index: 2;
+    }
+    .board-title p {
+      font-family: 'MrSheffield', cursive;
+      font-size: 58px;
+      color: #60a8a5;
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 76px;
+      white-space: nowrap;
+      z-index: 3;
+      pointer-events: none;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+
+    /* ── THREE-COLUMN LAYOUT ─────────────────── */
+    .board-layout {
+      display: grid;
+      grid-template-columns: 300px 1fr 300px;
+      gap: 32px;
+      max-width: 1600px;
+      margin: 0 auto;
+      padding: 0 40px;
+      align-items: start;
+      position: relative; z-index: 1;
+    }
+
+    /* ── SIDE COLUMNS ────────────────────────── */
+    .side-col {
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+    }
+
+    /* Sticky notes */
+    .sticky {
+      padding: 20px 18px 22px;
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      line-height: 1.55;
+      color: #2a2420;
+      box-shadow:
+        2px 3px 8px rgba(0,0,0,0.22),
+        0 1px 2px rgba(0,0,0,0.12),
+        inset 0 -3px 6px rgba(0,0,0,0.04);
+      cursor: pointer;
+      position: relative;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      border-radius: 2px;
+    }
+    .sticky::after {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 28px;
+      background: rgba(0,0,0,0.06);
+      border-radius: 2px 2px 0 0;
+    }
+    .sticky:hover {
+      box-shadow: 4px 8px 20px rgba(0,0,0,0.32), 0 2px 4px rgba(0,0,0,0.15);
+    }
+    .sticky-yellow { background: #f9e84e; transform: rotate(-1.8deg); }
+    .sticky-yellow:hover { transform: rotate(0deg) scale(1.02); }
+    .sticky-pink { background: #ffb3ba; transform: rotate(1.5deg); }
+    .sticky-pink:hover { transform: rotate(0deg) scale(1.02); }
+    .sticky-blue { background: #b8d8f8; transform: rotate(-2.2deg); }
+    .sticky-blue:hover { transform: rotate(0deg) scale(1.02); }
+    .sticky-green { background: #b8f0c8; transform: rotate(1deg); }
+    .sticky-green:hover { transform: rotate(0deg) scale(1.02); }
+    .sticky-orange { background: #ffd4a3; transform: rotate(-1.2deg); }
+    .sticky-orange:hover { transform: rotate(0deg) scale(1.02); }
+
+    .sticky-label {
+      font-family: 'Mencken', serif;
+      font-weight: normal;
+      font-size: 28px;
+      letter-spacing: 0.04em;
+      margin-bottom: 8px;
+      display: block;
+      text-transform: uppercase;
+      line-height: 1;
+    }
+
+    /* Polaroid photos */
+    .polaroid {
+      background: #fefefe;
+      padding: 10px 10px 34px;
+      box-shadow: 3px 5px 16px rgba(0,0,0,0.28), 0 1px 3px rgba(0,0,0,0.12);
+      cursor: pointer;
+      transition: transform 0.25s ease, box-shadow 0.25s ease;
+      position: relative;
+    }
+    .polaroid:nth-child(odd)  { transform: rotate(2.5deg); }
+    .polaroid:nth-child(even) { transform: rotate(-2deg); }
+    .polaroid:hover {
+      transform: rotate(0deg) scale(1.03) !important;
+      box-shadow: 6px 12px 30px rgba(0,0,0,0.35);
+      z-index: 10;
+    }
+    .polaroid img {
+      width: 100%; display: block;
+      aspect-ratio: 1 / 1;
+      object-fit: cover;
+    }
+    .polaroid-caption {
+      font-family: 'Caveat', cursive;
+      text-align: center;
+      padding-top: 8px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    /* Small hand note */
+    .hand-note {
+      font-family: 'Caveat', cursive;
+      font-size: 15px;
+      color: rgba(255,255,255,0.82);
+      line-height: 1.6;
+      padding: 10px 8px;
+      text-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      transform: rotate(-0.8deg);
+    }
+    .hand-note strong {
+      color: #fff;
+      text-decoration: underline;
+      text-decoration-color: var(--teal);
+    }
+
+    /* Pin dot */
+    .pin {
+      width: 14px; height: 14px;
+      border-radius: 50%;
+      background: var(--red);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.4), inset 0 -2px 3px rgba(0,0,0,0.2);
+      position: absolute;
+      top: -7px; left: 50%;
+      transform: translateX(-50%);
+      z-index: 5;
+    }
+
+    /* ── NOTE PAPER ──────────────────────────── */
+    .note-paper {
+      background: #fafbf6;
+      box-shadow: 0 6px 40px rgba(0,0,0,0.28), 0 1px 3px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      border-radius: 2px;
+    }
+    /* Red margin line */
+    .note-paper::before {
+      content: '';
+      position: absolute;
+      left: 68px; top: 0; bottom: 0;
+      width: 1.5px;
+      background: rgba(201,60,67,0.4);
+      z-index: 1;
+    }
+    /* Hole punches */
+    .note-paper::after {
+      content: '';
+      position: absolute;
+      left: 30px; top: 0; bottom: 0;
+      width: 14px;
+      background: repeating-linear-gradient(
+        to bottom,
+        transparent 0px,
+        transparent 54px,
+        rgba(0,0,0,0.08) 54px,
+        rgba(0,0,0,0.08) 68px
+      );
+    }
+    .note-lines {
+      position: absolute; inset: 0;
+      background-image: repeating-linear-gradient(
+        transparent 0px,
+        transparent 27px,
+        rgba(180,185,175,0.35) 27px,
+        rgba(180,185,175,0.35) 28px
+      );
+      background-size: 100% 28px;
+      background-position: 0 60px;
+      pointer-events: none;
+    }
+    .note-content {
+      padding: 52px 44px 60px 86px;
+      position: relative; z-index: 2;
+    }
+
+    .note-hermies {
+      font-family: 'MrSheffield', cursive;
+      font-size: 80px;
+      color: var(--purple);
+      line-height: 1;
+      margin-bottom: -8px;
+    }
+    .note-dev-title {
+      font-family: 'Mencken', serif;
+      font-size: 22px;
+      color: #333;
+      letter-spacing: 0.05em;
+      margin-bottom: 14px;
+    }
+    .note-subtitle {
+      font-family: 'Caveat', cursive;
+      font-size: 19px;
+      color: #777;
+      margin-bottom: 36px;
+    }
+    .note-subtitle del { color: #bbb; }
+    .note-subtitle .version-new { color: var(--teal); font-weight: 600; }
+
+    .note-section {
+      margin-bottom: 28px;
+    }
+    .note-section-title {
+      font-family: 'Caveat', cursive;
+      font-size: 26px;
+      font-weight: 700;
+      color: #222;
+      border-bottom: 1.5px solid rgba(96,29,85,0.2);
+      padding-bottom: 4px;
+      margin-bottom: 14px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .note-section-title .section-tag {
+      font-size: 13px;
+      background: var(--purple);
+      color: #fff;
+      padding: 3px 10px;
+      border-radius: 10px;
+      font-family: 'NeueHaas', sans-serif;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      font-weight: normal;
+    }
+    .note-line {
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: #333;
+      line-height: 1.8;
+      margin-bottom: 4px;
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+    }
+    .note-line del { color: #bbb; text-decoration-color: #999; }
+    .note-line .arrow-mark { color: var(--teal); font-weight: 700; flex-shrink: 0; }
+    .note-line .check { color: #4caf50; flex-shrink: 0; }
+    .note-line .star { color: var(--orange); flex-shrink: 0; }
+    .note-line .excl { color: var(--red); font-weight: 700; flex-shrink: 0; }
+    .note-line .margin-note {
+      font-size: 13px;
+      color: #a855a0;
+      font-style: italic;
+      margin-left: auto;
+      padding-left: 8px;
+      white-space: nowrap;
+    }
+
+    .note-callout {
+      background: rgba(96,168,165,0.1);
+      border-left: 3px solid var(--teal);
+      padding: 12px 16px;
+      margin: 14px 0;
+      border-radius: 0 4px 4px 0;
+      font-family: 'Caveat', cursive;
+      font-size: 20px;
+      color: #2a3a38;
+      font-style: italic;
+    }
+
+    .crossed-idea {
+      position: relative;
+      display: inline-block;
+    }
+    .crossed-idea::after {
+      content: '';
+      position: absolute;
+      left: -4px; right: -4px;
+      top: 50%;
+      height: 2px;
+      background: #999;
+      transform: rotate(-1.5deg);
+    }
+
+    .margin-scribble {
+      position: absolute;
+      font-family: 'Caveat', cursive;
+      font-size: 13px;
+      color: rgba(96,29,85,0.7);
+      right: 14px;
+      font-style: italic;
+      transform: rotate(90deg);
+      transform-origin: right center;
+      white-space: nowrap;
+    }
+
+    /* Drawn arrow SVG inline */
+    .sketch-arrow {
+      display: inline-block;
+      vertical-align: middle;
+      margin: 0 4px;
+    }
+
+    /* ── TAPE ───────────────────────────────── */
+    .tape {
+      position: absolute;
+      width: 72px;
+      height: 26px;
+      background: rgba(255, 248, 180, 0.72);
+      border: 0.5px solid rgba(210, 185, 80, 0.35);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.12);
+      z-index: 10;
+    }
+    .tape-tl { top: -13px; left: 80px; transform: rotate(-38deg); }
+    .tape-tr { top: -13px; right: 80px; transform: rotate(38deg); }
+    .tape-bl { bottom: -13px; left: 80px; transform: rotate(38deg); }
+    .tape-br { bottom: -13px; right: 80px; transform: rotate(-38deg); }
+
+    /* ── BOARD ARROWS ────────────────────────── */
+    .board-arrow {
+      position: absolute;
+      pointer-events: none;
+      z-index: 0;
+      overflow: visible;
+    }
+    .side-col > * {
+      position: relative;
+      z-index: 2;
+    }
+
+    /* ── MODAL ───────────────────────────────── */
+    .modal-overlay {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 800;
+      background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(3px);
+      align-items: center;
+      justify-content: center;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal-box {
+      background: #fafbf6;
+      max-width: 500px; width: 90%;
+      padding: 40px;
+      border-radius: 3px;
+      position: relative;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.4);
+      font-family: 'Caveat', cursive;
+      max-height: 80vh;
+      overflow-y: auto;
+    }
+    .modal-close {
+      position: absolute;
+      top: 14px; right: 18px;
+      background: none; border: none;
+      font-size: 22px; cursor: pointer;
+      color: #999; line-height: 1;
+      transition: color 0.2s ease;
+    }
+    .modal-close:hover { color: #333; }
+    .modal-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: #1a1a1a;
+      margin-bottom: 14px;
+      padding-right: 28px;
+      line-height: 1.3;
+    }
+    .modal-body {
+      font-size: 17px;
+      line-height: 1.75;
+      color: #333;
+    }
+    .modal-body p + p { margin-top: 12px; }
+    .modal-tag {
+      display: inline-block;
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 10px;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      background: var(--cream);
+      color: var(--purple);
+      padding: 3px 10px;
+      border-radius: 10px;
+      margin-bottom: 14px;
+    }
+
+    /* Photo lightbox on process page */
+    #photo-lightbox {
+      display: none;
+      position: fixed; inset: 0; z-index: 900;
+      background: rgba(0,0,0,0.9);
+      align-items: center; justify-content: center;
+    }
+    #photo-lightbox.active { display: flex; }
+    #photo-lb-img {
+      max-width: 84vw; max-height: 84vh;
+      object-fit: contain; border-radius: 4px;
+      box-shadow: 0 20px 80px rgba(0,0,0,0.5);
+    }
+    #photo-lb-close {
+      position: fixed; top: 26px; right: 30px;
+      background: none; border: none;
+      color: rgba(255,255,255,0.7); font-size: 28px;
+      cursor: pointer; z-index: 901;
+      transition: color 0.2s ease;
+    }
+    #photo-lb-close:hover { color: #fff; }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer {
+      position: relative;
+      padding: 0 40px 14px;
+      background: #0e0c0c;
+      overflow: hidden; text-align: center;
+    }
+    .footer-bg {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: cover; opacity: 0.28;
+      pointer-events: none;
+    }
+    .footer-inner { position: relative; z-index: 1; }
+    .footer-logo { height: 232px; margin: 110px auto 8px; display: block; }
+    .footer-location {
+      font-family: 'NeueHaas', sans-serif;
+      font-size: 13px; color: rgba(255,255,255,0.5); line-height: 1.75;
+    }
+    .footer-divider { width: 42px; height: 1px; background: var(--teal); margin: 12px auto; opacity: 0.55; }
+    .footer-contact { font-family: 'NeueHaas', sans-serif; font-size: 12.5px; color: rgba(255,255,255,0.4); line-height: 2; }
+    .footer-contact a { color: inherit; text-decoration: none; transition: color 0.2s ease; }
+    .footer-contact a:hover { color: var(--teal); }
+    .footer-social { display: flex; gap: 22px; justify-content: center; margin-top: 12px; }
+    .footer-social a { color: rgba(255,255,255,0.45); transition: color 0.2s ease; display: flex; align-items: center; }
+    .footer-social a:hover { color: var(--teal); }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <a href="index.html#menu" class="nav-link page-link">Menu</a>
+    <a href="https://resy.com/?extlink=ps-US-Resy-Brand-Conversion-Evergreen&utm_source=google&utm_medium=paid_search&utm_campaign=USA_EN_RE_GGL_RC_BR_ResyONLY_EXT_Standard_National&utm_term=General_RSA%20Website:resy&gclsrc=aw.ds&gad_source=1&gad_campaignid=11095590629&gbraid=0AAAAADRRHWPSX2g2Yl-RyYVOH80le-7dL&gclid=CjwKCAjw5NvPBhAoEiwA_2egfgg1EF91l8gedxgNq4uyH_vMRx5uww63ZVT58RIUSJ5D-ja2ISkA9xoCeFAQAvD_BwE&date=2026-05-03&seats=2" target="_blank" rel="noopener" class="nav-link">Reservations</a>
+    <a href="index.html" class="page-link">
+      <img src="brand_assets/Logo.png" alt="Hermies" class="nav-logo">
+    </a>
+    <a href="about.html" class="nav-link page-link">Our Story</a>
+    <a href="process.html" class="nav-link page-link">The Process</a>
+  </div>
+</nav>
+
+<!-- CORKBOARD -->
+<div class="corkboard">
+
+  <!-- Title -->
+  <div class="board-title-wrap">
+    <div class="board-title">
+      <h1>The Process</h1>
+      <p>Inside the mind &amp; kitchen of Chef Tom Cunanan</p>
+    </div>
+  </div>
+
+  <div class="board-layout" style="position:relative;">
+    <!-- hand-drawn arrows from side columns to center note paper -->
+    <!-- left col &#8594; center (upper) -->
+    <svg class="board-arrow" style="top:110px;left:286px;width:60px;height:50px;" viewBox="0 0 60 50">
+      <path d="M4 38 C18 32 38 22 54 14" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M44 8 L54 14 L46 22" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <!-- left col &#8594; center (mid) -->
+    <svg class="board-arrow" style="top:360px;left:290px;width:56px;height:30px;" viewBox="0 0 56 30">
+      <path d="M4 15 C18 10 36 10 52 15" stroke="#7a5c30" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M43 8 L52 15 L44 22" stroke="#7a5c30" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <!-- left col &#8594; center (lower) -->
+    <svg class="board-arrow" style="top:680px;left:282px;width:62px;height:44px;" viewBox="0 0 62 44">
+      <path d="M4 38 C20 28 40 18 58 10" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M48 4 L58 10 L50 18" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <!-- right col &#8594; center (upper) -->
+    <svg class="board-arrow" style="top:100px;right:286px;width:60px;height:50px;" viewBox="0 0 60 50">
+      <path d="M56 38 C42 30 22 20 6 14" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M14 8 L6 14 L14 22" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <!-- right col &#8594; center (mid) -->
+    <svg class="board-arrow" style="top:420px;right:290px;width:56px;height:30px;" viewBox="0 0 56 30">
+      <path d="M52 15 C36 10 18 10 4 15" stroke="#7a5c30" stroke-width="2" fill="none" stroke-linecap="round"/>
+      <path d="M12 8 L4 15 L12 22" stroke="#7a5c30" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <!-- right col &#8594; center (lower) -->
+    <svg class="board-arrow" style="top:720px;right:282px;width:62px;height:44px;" viewBox="0 0 62 44">
+      <path d="M58 38 C42 28 20 18 4 10" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round"/>
+      <path d="M12 4 L4 10 L12 18" stroke="#8b6438" stroke-width="2.2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+
+    <!-- LEFT COLUMN -->
+    <div class="side-col">
+
+      <!-- Sticky 1 -->
+      <div class="sticky sticky-yellow" data-modal="philosophy">
+        <span class="sticky-label">Core Belief</span>
+        Filipino soul, French structure  - <br>
+        everything starts there.<br><br>
+        <em>Technique is a servant. Flavor is the master.</em>
+      </div>
+
+      <!-- Polaroid 1 -->
+      <div class="polaroid" data-photo="Food/Capture.PNG">
+        <div class="pin"></div>
+        <img src="Food/Capture.PNG" alt="Rellenon Galimasag">
+        <div class="polaroid-caption">Rellenon Galimasag  -  take 3 &#10003;</div>
+      </div>
+
+      <!-- Sticky 2 -->
+      <div class="sticky sticky-green" data-modal="mama">
+        <span class="sticky-label">From Mama's Kitchen</span>
+        "What does it smell like when you walk in the door?"<br><br>
+        &#8594; ube + coconut + fire + vinegar<br><br>
+        <strong>That's the answer. That's the menu.</strong>
+      </div>
+
+      <!-- Hand note -->
+      <div class="hand-note">
+        ðŸ“ž Call supplier re: fresh pandan<br>
+         -  <em>do NOT use frozen, ever.</em><br>
+        <br>
+        Local Houston greenhouse confirmed<br>
+        for calamansi! &#10003;&#10003;
+      </div>
+
+      <!-- Polaroid 2 -->
+      <div class="polaroid" data-photo="Food/2536.PNG">
+        <div class="pin"></div>
+        <img src="Food/2536.PNG" alt="Rice bowl test">
+        <div class="polaroid-caption">Lechon bowl  -  v2. getting closer.</div>
+      </div>
+
+      <!-- Sticky 3 -->
+      <div class="sticky sticky-pink" data-modal="ingredients">
+        <span class="sticky-label">Ingredients First</span>
+        Good ingredients = simple preparation.<br><br>
+        If we wouldn't eat it at Mama's table,<br>
+        it doesn't go on ours.<br><br>
+        <del>No exceptions.</del> &#8594; <em>No. Exceptions.</em>
+      </div>
+
+    </div>
+
+    <!-- CENTER  -  NOTE PAPER -->
+    <div class="note-paper">
+      <div class="tape tape-tl"></div>
+      <div class="tape tape-tr"></div>
+      <div class="tape tape-bl"></div>
+      <div class="tape tape-br"></div>
+      <div class="note-lines"></div>
+
+      <!-- Margin scribble -->
+      <div class="margin-scribble" style="top: 200px;">Season 2 ideas</div>
+      <div class="margin-scribble" style="top: 520px;">ask Mama again</div>
+
+      <div class="note-content">
+
+        <div class="note-hermies">Hermies</div>
+        <div class="note-dev-title">Menu Development Notes</div>
+        <div class="note-subtitle">
+          Chef Tom Cunanan &nbsp;|&nbsp;
+          <del>Draft v1</del> &nbsp;<del>Draft v2</del>&nbsp;
+          <span class="version-new">&#10003; Final (ish)</span>
+        </div>
+
+        <!-- THE CONCEPT -->
+        <div class="note-section">
+          <div class="note-section-title">
+            The Concept
+            <span class="section-tag">Foundation</span>
+          </div>
+          <div class="note-line">
+            <span class="excl">&#10007;</span>
+            <span><del class="crossed-idea">"Filipino fusion restaurant"</del></span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>No. <strong>"Filipino cuisine, propelled forward."</strong></span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Evolution, not fusion. Fusion erases. Evolution celebrates.</span>
+          </div>
+          <div class="note-callout">
+            "The crossing of cultures shouldn't erase  -  it should illuminate what was already there."
+          </div>
+          <div class="note-line">
+            <span class="excl">&#10007;</span>
+            <span><del>"modernize everything"</del></span>
+            <span class="margin-note">too clinical</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Modernize <em>nothing</em>. <strong>Reveal</strong> everything.</span>
+          </div>
+        </div>
+
+        <!-- MOM'S KITCHEN -->
+        <div class="note-section">
+          <div class="note-section-title">
+            Mama's Kitchen
+            <span class="section-tag">The Origin</span>
+          </div>
+          <div class="note-line">
+            <span class="star">&#9733;</span>
+            <span>Every dish should answer: <strong>"does this taste like love?"</strong></span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span>The vinegar  -  always vinegar. It's the soul of Filipino food.</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span>Coconut milk = the base. <del>Try lighter versions</del> &#8594; NO. Full fat. Always.</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span>Ube is not a trend. It's memory. It's heritage. Treat it that way.</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Pandan must be fresh. Dried = unacceptable. Frozen = unacceptable.</span>
+          </div>
+          <div class="note-line">
+            <span class="star">&#9733;</span>
+            <span>Calamansi instead of lemon, everywhere we can. <em>(local Houston supplier found!)</em></span>
+          </div>
+          <div class="note-callout">
+            She never measured anything. She cooked by memory, by smell, by the sound of the pan. That's what I'm chasing  -  that feeling of certainty that comes from years of love, not technique.
+          </div>
+        </div>
+
+        <!-- KEY DISHES -->
+        <div class="note-section">
+          <div class="note-section-title">
+            Dish Development
+            <span class="section-tag">Working List</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span><strong>Lechon Pork Achara</strong>  -  Mang Tom's sauce. The vinegar finish is everything.</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span><strong>Halo-Halo</strong>  -  keep it honest. Don't deconstruct. Just do it RIGHT.</span>
+            <span class="margin-note">&#8592; YES</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span><strong>Calamansi Tiramisu</strong>  -  Italian structure, Filipino soul. My favorite so far.</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span><strong>Rellenon Galimasag</strong>  -  crab fat is the move. Don't overthink the sauce.</span>
+          </div>
+          <div class="note-line">
+            <span class="excl">&#10007;</span>
+            <span><del>Kare-Kare (traditional)</del></span>
+            <span class="margin-note">&#8594; season 2</span>
+          </div>
+          <div class="note-line">
+            <span class="excl">&#10007;</span>
+            <span><del>"General Tso's but Filipino"</del></span>
+            <span class="margin-note">&#8592; what was I thinking</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span><strong>Sampaguita Spritz</strong>  -  tastes like the garden outside Lola's house.</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Chicken Liver Mousse + ube halaya  -  sounds wrong. Tastes right.</span>
+          </div>
+        </div>
+
+        <!-- INGREDIENTS -->
+        <div class="note-section">
+          <div class="note-section-title">
+            Sourcing Notes
+            <span class="section-tag">Ingredients</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span>Calamansi: <del>import from Philippines</del> &#8594; LOCAL Houston supplier confirmed &#10003;&#10003;</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span>Jasmine rice: Koda Farms, California. Best grown outside Asia.</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Pandan: FRESH ONLY. Order twice-weekly to maintain quality.</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Ube halaya: make in-house. No shortcuts. <del>Check if purÃ©e works</del> &#8594; it doesn't.</span>
+          </div>
+          <div class="note-line">
+            <span class="check">&#10003;</span>
+            <span>French sea salt  -  for the lechon. The texture matters as much as the flavor.</span>
+          </div>
+          <div class="note-callout">
+            Manifesto: If we wouldn't eat it at Mama's table, it doesn't go on ours.
+          </div>
+        </div>
+
+        <!-- THE BIGGER PICTURE -->
+        <div class="note-section">
+          <div class="note-section-title">
+            The Bigger Picture
+            <span class="section-tag">Why This Matters</span>
+          </div>
+          <div class="note-line">
+            <span class="star">&#9733;</span>
+            <span>Filipino food deserves to be taken seriously. Not as "ethnic food." As cuisine.</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Every ingredient has a story. Every dish should tell it.</span>
+          </div>
+          <div class="note-line">
+            <span class="arrow-mark">&#8594;</span>
+            <span>Hermies isn't named after a person. It's named after a feeling  -  home.</span>
+          </div>
+          <div class="note-callout">
+            "Food is not only nourishment but a way of connecting with others, and honoring those who came before us."
+          </div>
+        </div>
+
+      </div><!-- /note-content -->
+    </div><!-- /note-paper -->
+
+    <!-- RIGHT COLUMN -->
+    <div class="side-col">
+
+      <!-- Sticky 4 -->
+      <div class="sticky sticky-blue" data-modal="evolution">
+        <span class="sticky-label">The Mission</span>
+        Filipino cuisine doesn't need saving  - <br>
+        it needs <strong>space</strong>.<br><br>
+        Give it the stage. Let it speak.
+      </div>
+
+      <!-- Polaroid 3 -->
+      <div class="polaroid" data-photo="Food/image 9 (1).png">
+        <div class="pin"></div>
+        <img src="Food/image 9 (1).png" alt="Dish test">
+        <div class="polaroid-caption">Adobong Pusit test run ðŸ¦‘</div>
+      </div>
+
+      <!-- Sticky 5 -->
+      <div class="sticky sticky-orange" data-modal="vinegar">
+        <span class="sticky-label">The Secret</span>
+        Vinegar is the SOUL of Filipino cooking.<br><br>
+        Mama's sinigang broth uses REAL tomatoes  - <br>
+        not tamarind powder. Not ever.<br><br>
+        <del>Consider sinigang base</del> &#8594; Ask Mama again first.
+      </div>
+
+      <!-- Hand note -->
+      <div class="hand-note">
+        Reminder: James Beard recognized the<br>
+        <strong>story</strong>, not just the technique.<br><br>
+        Every plate is a letter home. ðŸ 
+      </div>
+
+      <!-- Polaroid 4 -->
+      <div class="polaroid" data-photo="Food/78654.PNG">
+        <div class="pin"></div>
+        <img src="Food/78654.PNG" alt="Family spread">
+        <div class="polaroid-caption">inspiration  -  how it starts at home</div>
+      </div>
+
+      <!-- Sticky 6 -->
+      <div class="sticky sticky-yellow" data-modal="ube">
+        <span class="sticky-label">On Ube</span>
+        Ube is not a food trend.<br>
+        Ube is memory.<br>
+        Ube is heritage.<br>
+        Ube is my grandmother's hands.<br><br>
+        <em>Use it with that kind of reverence.</em>
+      </div>
+
+      <!-- Hand note -->
+      <div class="hand-note">
+        <del>Try molecular techniques on halo-halo</del><br>
+        &#8594; No. Stop. Just make good halo-halo.<br>
+        Trust the original. It's already perfect.
+      </div>
+
+      <!-- Polaroid 5 -->
+      <div class="polaroid" data-photo="Food/89.PNG">
+        <div class="pin"></div>
+        <img src="Food/89.PNG" alt="Liver mousse">
+        <div class="polaroid-caption">Chicken liver + ube. Weird? YES. Right? Also yes.</div>
+      </div>
+
+    </div>
+
+  </div><!-- /board-layout -->
+</div><!-- /corkboard -->
+
+<!-- FOOTER -->
+<footer>
+  <img src="Imagery/Footer.png" alt="" class="footer-bg">
+  <div class="footer-inner">
+    <img src="brand_assets/Logo.png" alt="Hermies" class="footer-logo">
+    <p class="footer-location">Soon to be restaurant in<br>Montrose Area of Houston, TX.</p>
+    <div class="footer-divider"></div>
+    <p class="footer-contact">
+      <a href="mailto:tom.cunanan@hermies.com">tom.cunanan@hermies.com</a><br>
+      <a href="tel:8324148908">(832) 414 - 8908</a>
+    </p>
+    <div class="footer-social">
+      <a href="https://www.instagram.com/hermiesrestaurant/" target="_blank" rel="noopener" aria-label="Instagram">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="2" width="20" height="20" rx="5" ry="5"/>
+          <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+          <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/>
+        </svg>
+      </a>
+      <a href="#" aria-label="Facebook">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/>
+        </svg>
+      </a>
+      <a href="mailto:tom.cunanan@hermies.com" aria-label="Email">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/>
+          <polyline points="22,6 12,13 2,6"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+</footer>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal-box">
+    <button class="modal-close" id="modal-close">&#x2715;</button>
+    <div class="modal-tag" id="modal-tag"></div>
+    <div class="modal-title" id="modal-title"></div>
+    <div class="modal-body" id="modal-body"></div>
+  </div>
+</div>
+
+<!-- PHOTO LIGHTBOX -->
+<div id="photo-lightbox">
+  <button id="photo-lb-close">&#x2715;</button>
+  <img id="photo-lb-img" src="" alt="">
+</div>
+
+<script>
+  /* ── Modal data ── */
+  const modalData = {
+    philosophy: {
+      tag: 'Core Philosophy',
+      title: 'Filipino Soul, French Structure',
+      body: `<p>Tom's culinary training at prestigious kitchens gave him a vocabulary  -  a technical language for cooking. But the language was always in service of something older: the flavors he grew up with in his family's home.</p><p>"French technique is a tool, not a destination," Tom says. "I use it to illuminate Filipino flavors, not to replace them. The precision of French mother sauces applied to bagoong. The structure of a braise applied to adobo."</p><p>What emerges is neither fusion nor traditional  -  it's Filipino cooking expressed with exceptional clarity and intention.</p>`
+    },
+    mama: {
+      tag: "Mom's Influence",
+      title: "What Does Grandma's Kitchen Smell Like?",
+      body: `<p>Tom traces every dish back to a sensory memory. The question he asks himself when developing a new recipe isn't "is this technically correct?"  -  it's "does this taste like love?"</p><p>His mother never measured anything. She cooked by memory, by smell, by the sound of the pan. The slight hiss of garlic hitting oil. The sharp exhale of vinegar reducing. The warm, sweet cloud of coconut milk coming to a simmer.</p><p>"Her kitchen was the original Michelin star," Tom says. "No guide needed. Just decades of care poured into every meal." Hermies is his attempt to bottle that feeling  -  and share it with everyone.</p>`
+    },
+    ingredients: {
+      tag: 'Ingredient Sourcing',
+      title: 'If We Wouldn\'t Eat It at Mama\'s Table...',
+      body: `<p>Tom's approach to ingredients is deceptively simple: if it doesn't belong on his mother's table, it doesn't belong on Hermies'. This means no shortcuts, no substitutes, no compromises.</p><p>Fresh pandan, never frozen. Calamansi from a local Houston greenhouse he discovered after months of searching. Ube halaya made in-house, because the jarred version "loses something essential  -  the feeling that someone cared."</p><p>Jasmine rice from Koda Farms in California. Full-fat coconut milk, always. French sea salt on the lechon, because the texture is as important as the flavor. "Good ingredients need simple preparation," Tom insists. "The work is in finding them. Then you get out of their way."</p>`
+    },
+    evolution: {
+      tag: 'The Mission',
+      title: 'Filipino Cuisine Doesn\'t Need Saving',
+      body: `<p>Filipino food has often been misunderstood in the American dining landscape  -  treated as comfort food, as humble food, as food that belongs in the background. Tom has spent his career challenging that assumption.</p><p>Earning a James Beard Award for Best Chef: Mid-Atlantic was a recognition not just of his skill, but of what Filipino cuisine can be when it's given the space and respect it deserves.</p><p>Hermies continues that work in Houston  -  a city that Tom believes is ready for it. "Filipino food doesn't need saving," he says. "It just needs a stage. Give it the right ingredients, the right attention, the right intention  -  and it speaks for itself."</p>`
+    },
+    vinegar: {
+      tag: 'Flavor Profile',
+      title: 'Vinegar: The Soul of Filipino Cooking',
+      body: `<p>If there is one flavor that defines Filipino cuisine for Tom, it's vinegar. Not as acidity  -  as philosophy. The willingness to let something ferment, to wait, to trust the process.</p><p>Adobo  -  the national dish  -  is essentially a vinegar braise. Sinigang is a sour broth. Kinilaw is a vinegar cure. "Filipinos have always understood that acid makes everything taste more alive," Tom explains.</p><p>His mother's sinigang broth uses real tomatoes  -  never tamarind powder, never a packet. "The difference is the difference between food and memory," he says. At Hermies, every dish with acidity is built on that foundation: real ingredients, real patience, real flavor.</p>`
+    },
+    ube: {
+      tag: 'On Heritage',
+      title: 'Ube Is Not a Trend',
+      body: `<p>Few ingredients have been more misunderstood in the American food moment than ube. The purple yam has appeared on Instagram, in ice cream, in lattes  -  often stripped of its context, its meaning, its home.</p><p>Tom uses ube at Hermies with a different kind of reverence. "Ube is memory," he says. "Ube is my grandmother's hands. Ube is the color of a Sunday afternoon in the Philippines." It appears in the halaya on the ube old fashioned, in the Halo-Halo, threaded through multiple desserts.</p><p>Used that way  -  with intention, with history behind it  -  ube isn't a trend. It's an anchor. A reminder of where all of this came from, and why it matters.</p>`
+    },
+  };
+
+  let savedScrollY = 0;
+
+  function closeModal() {
+    document.getElementById('modal').classList.remove('active');
+    document.body.style.overflow = '';
+    window.scrollTo(0, savedScrollY);
+  }
+
+  function closePhotoLightbox() {
+    document.getElementById('photo-lightbox').classList.remove('active');
+    document.body.style.overflow = '';
+    window.scrollTo(0, savedScrollY);
+  }
+
+  /* ── Sticky note click ── */
+  document.querySelectorAll('.sticky[data-modal]').forEach(el => {
+    el.addEventListener('click', () => {
+      const key = el.dataset.modal;
+      const data = modalData[key];
+      if (!data) return;
+      savedScrollY = window.scrollY;
+      document.getElementById('modal-tag').textContent = data.tag;
+      document.getElementById('modal-title').textContent = data.title;
+      document.getElementById('modal-body').innerHTML = data.body;
+      document.getElementById('modal').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.getElementById('modal-close').addEventListener('click', closeModal);
+  document.getElementById('modal').addEventListener('click', e => {
+    if (e.target === document.getElementById('modal')) closeModal();
+  });
+
+  /* ── Polaroid photo click ── */
+  document.querySelectorAll('.polaroid[data-photo]').forEach(el => {
+    el.addEventListener('click', () => {
+      savedScrollY = window.scrollY;
+      document.getElementById('photo-lb-img').src = el.dataset.photo;
+      document.getElementById('photo-lightbox').classList.add('active');
+      document.body.style.overflow = 'hidden';
+    });
+  });
+
+  document.getElementById('photo-lb-close').addEventListener('click', closePhotoLightbox);
+  document.getElementById('photo-lightbox').addEventListener('click', e => {
+    if (e.target === document.getElementById('photo-lightbox')) closePhotoLightbox();
+  });
+
+  /* ── Page transitions ── */
+  document.querySelectorAll('.page-link').forEach(link => {
+    link.addEventListener('click', e => {
+      const href = link.getAttribute('href');
+      if (!href || href.startsWith('#')) return;
+      e.preventDefault();
+      document.body.classList.add('exiting');
+      setTimeout(() => { window.location.href = href; }, 320);
+    });
+  });
+
+  /* ── Escape key ── */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape') {
+      if (document.getElementById('modal').classList.contains('active')) closeModal();
+      if (document.getElementById('photo-lightbox').classList.contains('active')) closePhotoLightbox();
+    }
+  });
+</script>
+</body>
+</html>
+
